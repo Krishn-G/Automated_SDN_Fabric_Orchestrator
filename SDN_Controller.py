@@ -4,14 +4,17 @@ import Topology
 import Addressing
 import Networks
 import Routing_Manual
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 #=====================================================================================
 
-d1=Device(host='192.168.1.26',user='labuser',password='Labuser')
-d2=Device(host='192.168.1.27',user='labuser',password='Labuser')
-d3=Device(host='192.168.1.28',user='labuser',password='Labuser')
-dlist = [d1,d2,d3]
-cost = 1
+user     = os.getenv("FABRIC_USER")
+password = os.getenv("FABRIC_PASSWORD")
+
+hosts = [v for k, v in sorted(os.environ.items()) if k.startswith("ROUTER_")]
+dlist = [Device(host=h, user=user, password=password) for h in hosts]
 
 if_s = ['ge-0/0/1', 'ge-0/0/2', 'ge-0/0/3', 'ge-0/0/4', 'ge-0/0/5']
 
